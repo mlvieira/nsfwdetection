@@ -1,0 +1,13 @@
+---
+development:
+  dialect: "mysql"
+  database: "nsfwdetection"
+  host: "localhost"
+  port: "3306"
+  user: ""
+  password: ""
+  options:
+    parseTime: true
+    multiStatements: true
+    readTimeout: 3s
+    collation: "utf8mb4_general_ci"

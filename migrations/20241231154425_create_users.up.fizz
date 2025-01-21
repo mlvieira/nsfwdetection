@@ -1,0 +1,5 @@
+create_table("users") {
+    t.Column("id", "int", {"primary": true, "auto_increment": true})
+    t.Column("username", "string", {"size": 50, "unique": true, "null": false})
+    t.Column("password", "string", {"size": 255, "null": false})
+}

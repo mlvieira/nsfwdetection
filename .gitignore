@@ -1,0 +1,32 @@
+# model
+python/model/*
+
+# temp folder for upload
+temp_uploads
+
+# permanent upload folder
+uploads/
+
+# venv
+python/venv/
+
+# build directory
+dist/*
+
+# go module files
+go.sum
+
+# config
+config.toml
+
+database.yml
+
+# ssl certs
+certs/
+
+# frontend stuff
+frontend/node_modules/
+frontend/public/build/
+frontend/package-lock.json
+frontend/dist/*
+frontend/.env

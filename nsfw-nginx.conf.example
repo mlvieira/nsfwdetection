@@ -1,0 +1,85 @@
+map $http_host $backend_url {
+    default "http://localhost:8081";
+}
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+server {
+    listen 443 ssl;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    server_name localhost;
+
+    # Svelte frontend
+    root /path/to/nsfwdetection/frontend/dist;
+    index index.html;
+
+    location /assets/ {
+	    expires 1y;
+	    add_header Cache-Control "public, immutable";
+    }
+
+    location /static/uploads/ {
+        alias /path/to/nsfwdetection/uploads/;
+        autoindex off;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate";
+        add_header Pragma "no-cache";
+        add_header Expires 0;
+    }
+
+    # Redirect frontend routes to index.html
+    location / {
+        try_files $uri /index.html;
+	    add_header Cache-Control "no-cache";
+
+        #proxy_pass https://localhost:5173;
+        #proxy_http_version 1.1;
+        #proxy_set_header Upgrade $http_upgrade;
+        #proxy_set_header Connection 'upgrade';
+        #proxy_set_header Host $host;
+        #proxy_cache_bypass $http_upgrade;
+	    #proxy_ssl_verify off;
+    }
+
+    # Proxy requests to the Go backend API
+    location /admin/ {
+        proxy_pass $backend_url/admin/;  # Go backend API server
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+	    #proxy_ssl_verify off;
+    }
+
+    # WebSocket proxy for real-time communication
+    location /ws {
+        proxy_pass $backend_url/ws;  # Go WebSocket server
+        proxy_http_version 1.1;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+
+	    proxy_set_header Host $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	    proxy_set_header X-Forwarded-Proto $scheme;
+
+	    proxy_set_header Sec-WebSocket-Protocol $http_sec_websocket_protocol;
+
+    	proxy_read_timeout 600s;
+    	proxy_send_timeout 600s;
+    	proxy_buffering off;
+
+	    #proxy_ssl_verify off;
+    }
+
+    error_page 404 /index.html;
+
+    access_log /var/log/nginx/nsfwdetection_access.log;
+    error_log /var/log/nginx/nsfwdetection_error.log;
+}
+

@@ -1,0 +1,21 @@
+[Unit]
+Description=NSFW Detection Service
+After=nginx.target
+
+[Service]
+Type=simple
+ExecStart=/path/to/nsfwdetection/dist/detectnsfw
+WorkingDirectory=/path/to/nsfwdetection
+Restart=always
+RestartSec=5
+User=www-data
+
+# Environment variables
+Environment="LD_LIBRARY_PATH=/usr/local/lib:/usr/lib"
+
+# Logging
+StandardOutput=append:/path/to/nsfwdetection/logs/app.log
+StandardError=append:/path/to/nsfwdetection/logs/error.log
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,35 @@
+# Server configuration settings
+[server]
+port = 8080                 # Port number the server listens on
+req_per_sec = 5.0           # Allowed requests per second (rate limiting)
+burst = 5                   # Maximum burst size for rate limiting
+domain_name = "https://localhost" # Domain name
+
+# Redis configuration
+[redis]
+addr = "localhost:6379"     # Redis server address (hostname:port)
+password = ""               # Password for Redis authentication (empty means no password)
+db = 1                      # Redis database index (integer value)
+
+# Database configuration
+[database]
+username = ""               # Username for database authentication
+password = ""               # Password for database authentication
+host = "localhost"          # Hostname or IP address of the database server
+port = 3306                 # Port number for database connection
+database = "nsfwdetection"  # Name of the database to connect to
+
+# File handling settings
+[file_handling]
+temp_upload_dir = "./temp_uploads" # Directory for storing temporary uploads
+upload_dir = "./uploads"    # Directory for storing permanent uploads
+max_file_size_mb = 50              # Maximum upload file size in megabytes (MB)
+
+# Model configuration
+[model]
+model_path = "./python/model/nsfw_model" # File path to the NSFW detection model directory or file
+
+# Security settings
+[security]
+jwt_secret_key = "my_super_secret_key"     # Secret key used for JWT authentication
+api_password = "supersecretpassword"      # Password for API access authentication

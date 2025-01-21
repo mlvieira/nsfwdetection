@@ -1,0 +1,11 @@
+create_table("uploaded_images") {
+    t.Column("id", "int", {"primary": true, "auto_increment": true})
+    t.Column("file_path", "string", {"size": 255})
+    t.Column("file_hash", "string", {"size": 64})
+    t.Column("label", "string", {"default": "unlabeled", "size": 10})
+    t.Column("new_label", "string", {"default": "unlabeled", "size": 10})
+    t.Column("confidence", "float")
+    t.Column("reviewed", "boolean", {"default": false})
+    t.Index("file_hash", {"unique": true})
+    t.Index(["reviewed", "id"])
+}
