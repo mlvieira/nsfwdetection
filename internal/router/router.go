@@ -54,6 +54,7 @@ func SetupRoutes(repositories *repositories.Repositories, redisClient *redis.Red
 			r.Post("/label/add/{hash}", apiHandlers.LabelImage)
 			r.Post("/label/update/{hash}", apiHandlers.LabelImage)
 			r.Post("/delete/{hash}", apiHandlers.DeleteImage)
+			r.Get("/stats", apiHandlers.Stats)
 		})
 	})
 

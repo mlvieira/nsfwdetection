@@ -86,3 +86,13 @@ export async function deleteImage(hash, jwtToken) {
     }),
   });
 }
+
+export async function stats(jwtToken) {
+  const url = `${BASE_URL}/admin/stats`;
+  return handleFetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  });
+}

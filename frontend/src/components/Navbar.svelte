@@ -89,6 +89,9 @@
                 <a class="text-gray-800 hover:text-blue-400" href="/#/label"
                     >Label</a
                 >
+                <a class="text-gray-800 hover:text-blue-400" href="/#/stats"
+                    >Stats</a
+                >
                 <a
                     class="text-gray-800 hover:text-blue-400"
                     href="/"

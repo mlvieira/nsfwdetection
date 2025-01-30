@@ -167,3 +167,41 @@ func (s *APIService) DeleteImage(ctx context.Context, hash string, req models.La
 
 	return response, nil
 }
+
+func (s *APIService) FetchStats(ctx context.Context) (models.StatsResponse, error) {
+	totalImages, err := s.repositories.Uploaded.ListTotalUploads(ctx, nil)
+	if err != nil {
+		return models.StatsResponse{}, fmt.Errorf("failed to fetch count of uploads")
+	}
+
+	countLabeled, countUnlabeled, err := s.repositories.Stats.CountRevNonRevImages(ctx)
+	if err != nil {
+		return models.StatsResponse{}, fmt.Errorf("failed to fetch count of reviewed and non reviewed images")
+	}
+
+	avgConfidence, err := s.repositories.Stats.AverageConfidence(ctx)
+	if err != nil {
+		return models.StatsResponse{}, fmt.Errorf("failed to fetch avg for confidence")
+	}
+
+	labelDistribution, err := s.repositories.Stats.LabelDistribution(ctx)
+	if err != nil {
+		return models.StatsResponse{}, fmt.Errorf("failed to fetch label distribution")
+	}
+
+	labelEfficiency, err := s.repositories.Stats.LabelingEfficiency(ctx)
+	if err != nil {
+		return models.StatsResponse{}, fmt.Errorf("failed to fetch label efficiency")
+	}
+
+	response := models.StatsResponse{
+		TotalImages:        totalImages,
+		ReviewedImages:     countLabeled,
+		UnlabeledImages:    countUnlabeled,
+		AverageConfidence:  avgConfidence,
+		LabelDistribution:  labelDistribution,
+		LabelingEfficiency: labelEfficiency,
+	}
+
+	return response, nil
+}

@@ -31,3 +31,12 @@ type AckResponse struct {
 	Sha256 string `json:"sha256"`
 	Status string `json:"status"`
 }
+
+type StatsResponse struct {
+	TotalImages        int            `json:"total_images"`
+	ReviewedImages     int            `json:"reviewed_images"`
+	UnlabeledImages    int            `json:"unlabeled_images"`
+	AverageConfidence  float64        `json:"average_confidence"`
+	LabelDistribution  map[string]int `json:"label_distribution"`
+	LabelingEfficiency float64        `json:"labeling_efficiency_percentage"`
+}

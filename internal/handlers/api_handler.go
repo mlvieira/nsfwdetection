@@ -94,3 +94,13 @@ func (a *APIHandlers) DeleteImage(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteJSONResponse(w, http.StatusOK, response)
 }
+
+func (a *APIHandlers) Stats(w http.ResponseWriter, r *http.Request) {
+	response, err := a.Services.FetchStats(r.Context())
+	if err != nil {
+		utils.WriteJSONError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	utils.WriteJSONResponse(w, http.StatusOK, response)
+}
