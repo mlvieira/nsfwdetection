@@ -14,6 +14,12 @@ type PaginatedResponse struct {
 	Total int             `json:"total"`
 }
 
+type PaginatedRequest struct {
+	ID       int   `json:"id"`
+	Limit    int   `json:"limit"`
+	Reviewed *bool `json:"reviewed,omitempty"`
+}
+
 type LabelRequest struct {
 	Event  string `json:"event"`
 	Sha256 string `json:"sha256"`

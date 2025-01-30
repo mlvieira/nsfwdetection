@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/mlvieira/nsfwdetection/internal/logger"
@@ -44,30 +43,13 @@ func (a *APIHandlers) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *APIHandlers) PaginationUploads(w http.ResponseWriter, r *http.Request) {
-	cursorID, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil || cursorID < 0 {
-		utils.WriteJSONError(w, http.StatusBadRequest, "Invalid ID parameter")
+	var req models.PaginatedRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		utils.WriteJSONError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 
-	limit, err := strconv.Atoi(chi.URLParam(r, "limit"))
-	if err != nil || limit <= 0 {
-		utils.WriteJSONError(w, http.StatusBadRequest, "Invalid limit parameter")
-		return
-	}
-
-	reviewedParam := r.URL.Query().Get("reviewed")
-	var reviewed *bool
-	if reviewedParam != "" {
-		parsedReviewed, err := strconv.ParseBool(reviewedParam)
-		if err != nil {
-			utils.WriteJSONError(w, http.StatusBadRequest, "Invalid reviewed parameter, must be 'true' or 'false'")
-			return
-		}
-		reviewed = &parsedReviewed
-	}
-
-	response, err := a.Services.PaginationUploads(r.Context(), cursorID, limit, reviewed)
+	response, err := a.Services.PaginationUploads(r.Context(), req.ID, req.Limit, req.Reviewed)
 	if err != nil {
 		logger.Error("Error fetching uploads: %v", err)
 		utils.WriteJSONError(w, http.StatusInternalServerError, err.Error())

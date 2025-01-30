@@ -20,12 +20,23 @@ export async function loginUser(username, password) {
 }
 
 export async function fetchUploads(cursorId, limit, reviewed, jwtToken) {
-  const url = reviewed !== undefined
-    ? `${BASE_URL}/admin/images/${cursorId}/${limit}/reviewed=${reviewed}`
-    : `${BASE_URL}/admin/images/${cursorId}/${limit}`;
+  const url = `${BASE_URL}/admin/images`
+  const body = {
+    id: cursorId,
+    limit: limit,
+  }
+
+  if (reviewed !== undefined) {
+    body.reviewed = reviewed;
+  }
+
   return handleFetch(url, {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${jwtToken}` },
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
   });
 }
 

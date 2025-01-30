@@ -50,7 +50,7 @@ func SetupRoutes(repositories *repositories.Repositories, redisClient *redis.Red
 		r.Group(func(r chi.Router) {
 			r.Use(middleware.JWTAuth)
 
-			r.Get("/images/{id}/{limit}", apiHandlers.PaginationUploads)
+			r.Get("/images", apiHandlers.PaginationUploads)
 			r.Post("/label/add/{hash}", apiHandlers.LabelImage)
 			r.Post("/label/update/{hash}", apiHandlers.LabelImage)
 			r.Post("/delete/{hash}", apiHandlers.DeleteImage)
