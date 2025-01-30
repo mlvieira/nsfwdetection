@@ -72,7 +72,7 @@ func (s *statsRepo) LabelDistribution(ctx context.Context) (map[string]int, erro
 		SELECT new_label, COUNT(1) 
 		FROM uploaded_images 
 		WHERE reviewed = true 
-		GROUP BY label
+		GROUP BY new_label
 	`)
 	if err != nil {
 		return nil, err
