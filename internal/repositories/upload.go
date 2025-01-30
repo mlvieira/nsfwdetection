@@ -75,11 +75,11 @@ func (u *uploadedRepo) ListUploadsCursor(ctx context.Context, cursorID, limit in
 		FROM 
 			uploaded_images
 		WHERE 
-			id > ?
+			(? IS NULL OR id < ?)
 	`
 
 	var args []interface{}
-	args = append(args, cursorID)
+	args = append(args, cursorID, cursorID)
 
 	if reviewed != nil {
 		query += " AND reviewed = ?"

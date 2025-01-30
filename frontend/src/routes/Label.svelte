@@ -22,7 +22,7 @@
 
   export let gridSize = "md";
   export let viewMode = "grid";
-  let currentCursor = 0;
+  let currentCursor = Number.MAX_SAFE_INTEGER;
   let limit = 20;
   let totalCount = 0;
   let loadedCount = 0;
