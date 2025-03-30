@@ -66,7 +66,7 @@
         <div class="bg-white p-4 rounded shadow">
             <h2 class="text-xl font-semibold">Labeling Efficiency</h2>
             <p class="text-2xl text-gray-700">
-                {labelingEfficiencyPercentage}%
+                {labelingEfficiencyPercentage.toFixed(2)}%
             </p>
         </div>
 
