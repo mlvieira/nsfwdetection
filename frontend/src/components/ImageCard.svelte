@@ -13,8 +13,8 @@
     $: isEditMode = upload.reviewed;
 
     $: displayLabel = upload.reviewed
-        ? upload.new_label || upload.label
-        : upload.label;
+        ? upload.new_label
+        : "Unlabeled";
 
     function handleLabelOrUpdate(label) {
         const handler = !isEditMode ? onLabel : onUpdate;
@@ -58,7 +58,8 @@
         <p class="text-gray-700 font-semibold">
             Confidence: {parseFloat(upload.confidence).toFixed(2)}%
         </p>
-        <p class="text-sm text-gray-500 mb-2">{displayLabel || "Unlabeled"}</p>
+        <p class="text-sm text-gray-500 mb-2">H: {displayLabel}</p>
+        <p class="text-sm text-gray-500 mb-2">AI: {upload.label}</p>
 
         <div
             class="flex justify-center flex-wrap gap-2 mt-2 px-2 md:px-4 py-1 md:py-2"

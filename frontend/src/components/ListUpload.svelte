@@ -12,8 +12,8 @@
     $: isEditMode = upload.reviewed;
 
     $: displayLabel = upload.reviewed
-        ? upload.new_label || upload.label
-        : upload.label;
+        ? upload.new_label
+        : "Unlabeled";
 
     function handleLabelOrUpdate(label) {
         const handler = !isEditMode ? onLabel : onUpdate;
@@ -45,7 +45,8 @@
         >
             {isEditMode ? "Edit" : "Labeling"}
         </div>
-        <p class="font-semibold text-gray-700">{displayLabel || "Unlabeled"}</p>
+        <p class="font-semibold text-gray-700">H: {displayLabel}</p>
+        <p class="font-semibold text-gray-700">AI: {upload.label}</p>
         <p class="text-sm text-gray-500">
             Confidence: {parseFloat(upload.confidence).toFixed(2)}%
         </p>
